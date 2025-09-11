@@ -15,7 +15,7 @@ try:
         EC.invisibility_of_element_located((By.CSS_SELECTOR, "#spinner"))
     )
 
-    # Получаем третью картинку
+    # Получаем третью картинкуу
     third_image = driver.find_element(
         By.CSS_SELECTOR, "#image-container img:nth-child(3)")
     print("Атрибут src третьей картинки:", third_image.get_attribute("src"))
