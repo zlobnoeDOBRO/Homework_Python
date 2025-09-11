@@ -10,7 +10,7 @@ try:
         "https://bonigarcia.dev/selenium-webdriver-java/loading-images.html")
 
     # Ждем пока исчезнет спиннер загрузки
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 12)
     wait.until(
         EC.invisibility_of_element_located((By.CSS_SELECTOR, "#spinner"))
     )
@@ -23,4 +23,5 @@ try:
 except Exception as e:
     print(f"Произошла ошибка: {e}")
 
+finally:
     driver.quit()
