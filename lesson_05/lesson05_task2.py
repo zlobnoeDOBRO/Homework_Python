@@ -16,27 +16,18 @@ driver = webdriver.Chrome(
     options=chrome_options
 )
 
-try:
-    # 1. Перейти на страницу
-    print("Переходим на страницу...")
-    driver.get("http://uitestingplayground.com/dynamicid")
+# 1. Перейти на страницу
+driver.get("http://uitestingplayground.com/dynamicid")
 
-    # 2. Найти синюю кнопку по CSS-классу
-    # Кнопка имеет класс 'btn-primary'
-    blue_button = driver.find_element(By.CLASS_NAME, "btn-primary")
-    print("Синяя кнопка найдена!")
+# 2. Найти синюю кнопку по CSS-классу
+# Кнопка имеет класс 'btn-primary'
+blue_button = driver.find_element(By.CLASS_NAME, "btn-primary")
 
-    # 3. Кликнуть на синюю кнопку
-    blue_button.click()
-    print("Успешно кликнули на синюю кнопку!")
+# 3. Кликнуть на синюю кнопку
+blue_button.click()
 
-    # Небольшая пауза чтобы увидеть результат
-    time.sleep(2)
+# Небольшая пауза чтобы увидеть результат
+time.sleep(2)
 
-except Exception as e:
-    print(f"Произошла ошибка: {e}")
-
-finally:
-    # Закрыть браузер
-    driver.quit()
-    print("Браузер закрыт.")
+# Закрыть браузер
+driver.quit()
