@@ -2,41 +2,30 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # Настройка браузера Firefox
 driver = webdriver.Firefox(
     service=FirefoxService(GeckoDriverManager().install())
 )
 
-try:
-    # 1. Перейти на страницу
-    print("Переходим на страницу...")
-    driver.get("http://the-internet.herokuapp.com/inputs")
+# 1. Перейти на страницу
+driver.get("http://the-internet.herokuapp.com/inputs")
 
-    # 2. Найти поле ввода
-    input_field = driver.find_element(By.TAG_NAME, "input")
-    print("Поле ввода найдено!")
+# 2. Найти поле ввода (ожидаем появления элемента)
+input_field = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.TAG_NAME, "input"))
+)
 
-    # 3. Ввести в поле текст "Sky"
-    input_field.send_keys("Sky")
-    print("Введен текст: Sky")
-    time.sleep(1)
+# 3. Ввести в поле текст "Sky"
+input_field.send_keys("Sky")
 
-    # 4. Очистить поле
-    input_field.clear()
-    print("Поле очищено!")
-    time.sleep(1)
+# 4. Очистить поле
+input_field.clear()
 
-    # 5. Ввести в поле текст "Pro"
-    input_field.send_keys("Pro")
-    print("Введен текст: Pro")
-    time.sleep(1)
+# 5. Ввести в поле текст "Pro"
+input_field.send_keys("Pro")
 
-except Exception as e:
-    print(f"Произошла ошибка: {e}")
-
-finally:
-    # 6. Закрыть браузер
-    driver.quit()
-    print("Браузер закрыт.")
+# 6. Закрыть браузер
+driver.quit()

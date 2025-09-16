@@ -1,14 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-import time
 
-# Настройка опций Chrome (для игнорирования SSL ошибок)
+# Настройка опций Chrome для игнорирования SSL ошибок
 chrome_options = Options()
-chrome_options.add_argument('--ignore-ssl-errors=yes')
 chrome_options.add_argument('--ignore-certificate-errors')
+chrome_options.add_argument('--ignore-ssl-errors')
 
 # Настройка браузера
 driver = webdriver.Chrome(
@@ -16,27 +17,19 @@ driver = webdriver.Chrome(
     options=chrome_options
 )
 
-try:
-    # 1. Перейти на страницу
-    print("Переходим на страницу...")
-    driver.get("http://uitestingplayground.com/dynamicid")
+# 1. Перейти на страницу
+driver.get("http://uitestingplayground.com/dynamicid")
 
-    # 2. Найти синюю кнопку по CSS-классу
-    # Кнопка имеет класс 'btn-primary'
-    blue_button = driver.find_element(By.CLASS_NAME, "btn-primary")
-    print("Синяя кнопка найдена!")
+# 2. Найти и дождаться кликабельности синей кнопки
+blue_button = WebDriverWait(driver, 10).until(
+    EC.element_to_be_clickable((By.CLASS_NAME, "btn-primary"))
+)
 
-    # 3. Кликнуть на синюю кнопку
-    blue_button.click()
-    print("Успешно кликнули на синюю кнопку!")
+# 3. Кликнуть на синюю кнопку
+blue_button.click()
 
-    # Небольшая пауза чтобы увидеть результат
-    time.sleep(2)
+# 4. Проверка
+assert blue_button is not None
 
-except Exception as e:
-    print(f"Произошла ошибка: {e}")
-
-finally:
-    # Закрыть браузер
-    driver.quit()
-    print("Браузер закрыт.")
+# Закрыть браузер
+driver.quit()
