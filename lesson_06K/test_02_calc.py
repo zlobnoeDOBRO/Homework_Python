@@ -24,34 +24,19 @@ def test_calculator_delay():
     delay_field.clear()
     delay_field.send_keys("45")
 
-    # 5. Нажимаем на кнопки калькулятора: 7 + 8 =
-    button_7 = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//span[text()='7']"))
-    )
-    button_7.click()
+    # 5. Находим все кнопки сразу после загрузки поля ввода
+    driver.find_elements(By.CSS_SELECTOR, ".btn-outline-primary")
 
-    button_plus = driver.find_element(By.XPATH, "//span[text()='+']")
-    button_plus.click()
+    # Нажимаем на кнопки калькулятора: 7 + 8 =
+    driver.find_element(By.XPATH, "//span[text()='7']").click()
+    driver.find_element(By.XPATH, "//span[text()='+']").click()
+    driver.find_element(By.XPATH, "//span[text()='8']").click()
+    driver.find_element(By.XPATH, "//span[text()='=']").click()
 
-    button_8 = driver.find_element(By.XPATH, "//span[text()='8']")
-    button_8.click()
-
-    button_equals = driver.find_element(By.XPATH, "//span[text()='=']")
-    button_equals.click()
-
-    # 6. Ждем появления результата "15" на экране калькулятора
-    # Используем явное ожидание, которое будет ждать до 46 секунд
-    wait.until(
+    # 6. Ждем появления результата "15" на экране калькулятора.
+    assert wait.until(
         EC.text_to_be_present_in_element((By.CSS_SELECTOR, ".screen"), "15")
     )
 
-    # 7. Получаем текст из дисплея калькулятора и проверяем результат
-    screen_element = driver.find_element(By.CSS_SELECTOR, ".screen")
-    result_text = screen_element.text
-
-    assert result_text == "15", (
-        f"Ожидаемый результат: 15, фактический результат: {result_text}"
-    )
-
-    # 8. Закрываем браузер
+    # 7. Закрываем браузер
     driver.quit()

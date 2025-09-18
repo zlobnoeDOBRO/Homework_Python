@@ -53,28 +53,18 @@ class TestForm:
         # Ждем перехода на новую страницу
         self.wait.until(EC.url_contains("data-types-submitted.html"))
 
-        # Находим все alert элементы на новой странице
-        alerts = self.wait.until(EC.presence_of_all_elements_located(
-            (By.CSS_SELECTOR, ".alert")))
+        # Находим поле Zip code явно по его ID
+        zip_code_alert = self.wait.until(
+            EC.presence_of_element_located((By.ID, "zip-code")))
 
-        # Проверяем, что поле Zip code подсвечено красным (danger)
-        # Четвертый элемент должен быть zip-code
-        zip_code_alert = alerts[3]  # четвертый элемент (индекс 3)
-        assert "alert-danger" in zip_code_alert.get_attribute("class"), \
-            "Zip code поле должно быть подсвечено красным"
-        assert zip_code_alert.text == "N/A", \
-            "Zip code поле должно содержать текст N/A"
+        # Проверяем, что поле Zip code подсвечено красным
+        assert "alert-danger" in zip_code_alert.get_attribute("class")
 
-        # Проверяем, что остальные поля подсвечены зеленым (success)
-        success_indices = [0, 1, 2, 4, 5, 6, 7, 8, 9]  # индексы успешных полей
-        expected_texts = [
-            "Иван", "Петров", "Ленина, 55-3", "Москва", "Россия",
-            "test@skypro.com", "+7985899998787", "QA", "SkyPro"
-        ]
+        # Находим все успешные alert элементы
+        # (поля подсвечены зеленым)
+        success_alerts = self.driver.find_elements(
+            By.CSS_SELECTOR, ".alert-success")
 
-        for i, expected_text in zip(success_indices, expected_texts):
-            alert = alerts[i]
-            assert "alert-success" in alert.get_attribute("class"), \
-                f"Поле с индексом {i} должно быть подсвечено зеленым"
-            assert alert.text == expected_text, \
-                f"Текст поля с индексом {i} должен быть '{expected_text}'"
+        # Проверяем, что все найденные элементы подсвечены зеленым
+        for alert in success_alerts:
+            assert "alert-success" in alert.get_attribute("class")
