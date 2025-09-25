@@ -19,16 +19,18 @@ driver = webdriver.Chrome(
     options=chrome_options
 )
 
-#  1. Перейти на страницу
+# 1. Перейти на страницу
 driver.get("http://uitestingplayground.com/classattr")
 
-#  2. Найти синюю кнопку по CSS-классу (btn-primary)
-blue_button = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.CLASS_NAME, "btn-primary"))
-)
+# 2. Найти синюю кнопку по CSS-классу
+# У кнопки есть класс 'btn-primary'
+blue_button = driver.find_element(By.CLASS_NAME, "btn-primary")
 
-#  3. Кликнуть на синюю кнопку
+# 3. Кликнуть на синюю кнопку
 blue_button.click()
 
-#  Закрыть браузер
+# Небольшая пауза чтобы увидеть результат
+time.sleep(2)
+
+# Закрыть браузер
 driver.quit()

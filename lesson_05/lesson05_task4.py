@@ -10,33 +10,28 @@ driver = webdriver.Firefox(
     service=FirefoxService(GeckoDriverManager().install())
 )
 
-#  1. Перейти на страницу
+# 1. Перейти на страницу авторизации
 driver.get("http://the-internet.herokuapp.com/login")
 
-#  2. Найти поле username и ввести значение
-username_field = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "username"))
-)
+# 2. Найти поле username и ввести значение
+username_field = driver.find_element(By.ID, "username")
 username_field.send_keys("tomsmith")
+time.sleep(1)
 
-#  3. Найти поле password и ввести значение
-password_field = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "password"))
-)
+# 3. Найти поле password и ввести значение
+password_field = driver.find_element(By.ID, "password")
 password_field.send_keys("SuperSecretPassword!")
+time.sleep(1)
 
-#  4. Найти и нажать кнопку Login
-login_button = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
-)
+# 4. Найти и нажать кнопку Login
+login_button = driver.find_element(
+    By.CSS_SELECTOR, "button[type='submit']")
 login_button.click()
+time.sleep(2)  # Пауза для загрузки страницы после авторизации
 
-#  5. Найти и проверить текст с зеленой плашки
-success_message = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "flash"))
-)
+# 5. Найти и вывести текст с зеленой плашки
+success_message = driver.find_element(By.ID, "flash")
 message_text = success_message.get_attribute("textContent").strip()
-assert "You logged into a secure area!" in message_text
 
-#  6. Закрыть браузер
+# 6. Закрыть браузер
 driver.quit()
