@@ -2,9 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-# Настройка браузера Firefox
+#  Настройка браузера Firefox
 driver = webdriver.Firefox(
     service=FirefoxService(GeckoDriverManager().install())
 )

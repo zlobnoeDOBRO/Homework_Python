@@ -1,16 +1,17 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-import time
 
-# Настройка опций Chrome (для игнорирования SSL ошибок)
+#  Настройка опций Chrome для игнорирования SSL ошибок
 chrome_options = Options()
-chrome_options.add_argument('--ignore-ssl-errors=yes')
 chrome_options.add_argument('--ignore-certificate-errors')
+chrome_options.add_argument('--ignore-ssl-errors')
 
-# Настройка браузера
+#  Настройка браузера
 driver = webdriver.Chrome(
     service=ChromeService(ChromeDriverManager().install()),
     options=chrome_options
