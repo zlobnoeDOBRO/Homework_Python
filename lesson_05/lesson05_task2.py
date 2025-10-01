@@ -17,19 +17,18 @@ driver = webdriver.Chrome(
     options=chrome_options
 )
 
-#  1. Перейти на страницу
+# 1. Перейти на страницу
 driver.get("http://uitestingplayground.com/dynamicid")
 
-#  2. Найти и дождаться кликабельности синей кнопки
-blue_button = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.CLASS_NAME, "btn-primary"))
-)
+# 2. Найти синюю кнопку по CSS-классу
+# Кнопка имеет класс 'btn-primary'
+blue_button = driver.find_element(By.CLASS_NAME, "btn-primary")
 
-#  3. Кликнуть на синюю кнопку
+# 3. Кликнуть на синюю кнопку
 blue_button.click()
 
-#  4. Проверка
-assert blue_button is not None
+# Небольшая пауза чтобы увидеть результат
+time.sleep(2)
 
-#  Закрыть браузер
+# Закрыть браузер
 driver.quit()
