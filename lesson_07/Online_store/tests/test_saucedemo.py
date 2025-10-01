@@ -6,17 +6,18 @@ from pages.checkout_page import CheckoutPage
 
 class TestSauceDemo:
     def test_complete_purchase_flow(self, driver):
-        # Шаг 1: Авторизация (только создание и использование Page Objects)
+        # Шаг 1: Авторизация
         login_page = LoginPage(driver)
         login_page.open().login("standard_user", "secret_sauce")
 
         # Шаг 2: Добавление товаров в корзину
         products_page = ProductsPage(driver)
-        products_page.add_backpack_to_cart()
-        products_page.add_bolt_t_shirt_to_cart()
-        products_page.add_onesie_to_cart()
+        products_page.add_product_to_cart("add-to-cart-sauce-labs-backpack")
+        products_page.add_product_to_cart("add-to-cart-sauce-labs-bolt-t-shirt"
+                                          )
+        products_page.add_product_to_cart("add-to-cart-sauce-labs-onesie")
 
-        # Проверка количества товаров в корзине (в тесте)
+        # Проверка количества товаров в корзине
         cart_count = products_page.get_cart_count()
         assert cart_count == 3, f"Expected 3, but got {cart_count}"
 
@@ -32,7 +33,15 @@ class TestSauceDemo:
 
         # Шаг 4: Заполнение информации о покупателе
         checkout_page = CheckoutPage(driver)
-        checkout_page.fill_checkout_info("John", "Doe", "12345")
+
+        # Создаем словарь с данными для заполнения
+        checkout_data = {
+            "first-name": "John",
+            "last-name": "Doe",
+            "postal-code": "12345"
+        }
+
+        checkout_page.fill_checkout_info(checkout_data)
 
         # Шаг 5: Проверка итоговой суммы
         total_amount = checkout_page.get_total_price()
